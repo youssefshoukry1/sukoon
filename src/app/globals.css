@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cairo:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-deep: #2C4A3E;
+  --color-mid: #4A7C65;
+  --color-light: #8AB5A0;
+  --color-cream: #F7F1E4;
+  --color-sand: #E4D3B0;
+  --color-sand-dark: #C4A87A;
+  --color-terra: #C4795A;
+  --color-terra-light: #EDD4C9;
+  --color-dark: #1A2820;
+  --color-muted: #6B7C74;
+
+  --font-cairo: "Cairo", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-dark);
+    font-family: var(--font-cairo);
+    direction: rtl;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair);
+  }
+}
