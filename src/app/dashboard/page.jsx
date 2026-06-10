@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Package, RefreshCw, LayoutDashboard, Search } from 'lucide-react';
+import { Package, RefreshCw, LayoutDashboard, Search, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
