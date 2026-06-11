@@ -36,7 +36,7 @@ export default function OrderPage() {
 
     try {
       // Connect to the backend
-      await axios.post('http://localhost:4000/api/orders', {
+      await axios.post('https://sukoon-api-w5fb.onrender.com/api/orders', {
         ...formData,
         totalPrice
       });
