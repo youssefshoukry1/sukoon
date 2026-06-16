@@ -1,10 +1,28 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Truck, ThumbsUp, Medal, CheckCircle2 } from 'lucide-react';
 
 export default function Home() {
+  const [productData, setProductData] = useState(null);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch('https://sukoon-api-w5fb.onrender.com/api/product');
+        const data = await res.json();
+        if (data.success && data.data && data.data.length > 0) {
+          setProductData(data.data[0]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      }
+    };
+    fetchProduct();
+  }, []);
+
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -28,8 +46,8 @@ export default function Home() {
         <span className="text-[12px] text-light tracking-[1px] hidden md:inline">
           راحة لتركيز يدوم
         </span>
-        <Link 
-          href="/order" 
+        <Link
+          href="/order"
           className="bg-terra text-white rounded-md px-4 py-2 font-cairo text-[13px] font-semibold transition-opacity hover:opacity-90"
         >
           اطلب دلوقتي
@@ -39,7 +57,7 @@ export default function Home() {
       {/* HERO */}
       <section className="bg-cream">
         <div className="py-10 md:py-16 px-6 md:px-[5%] grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-[1100px] mx-auto text-center md:text-right">
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
@@ -48,10 +66,10 @@ export default function Home() {
               كوشن طبي محمول
             </motion.div>
             <motion.h1 variants={fadeUp} className="font-playfair text-[32px] md:text-[42px] text-deep leading-[1.2] mb-4">
-              اقعد <span className="text-terra">براحة</span>،<br/>وذاكر بثقة
+              اقعد <span className="text-terra">براحة</span>،<br />وذاكر بثقة
             </motion.h1>
             <motion.p variants={fadeUp} className="text-[16px] md:text-[17px] text-muted mb-6 leading-[1.7]">
-              مصنوع خصيصاً لطلاب الثانوية العامة —<br/>
+              مصنوع خصيصاً لطلاب الثانوية العامة —<br />
               لاتكس طبيعي + كتان فاخر + سهل الحمل
             </motion.p>
             <motion.div variants={fadeUp} className="flex justify-center md:justify-start items-baseline gap-3 mb-8">
@@ -68,32 +86,51 @@ export default function Home() {
               </a>
             </motion.div>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             className="flex justify-center items-center relative mt-10 md:mt-0"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
           >
             <div className="relative w-[260px] h-[260px] md:w-[320px] md:h-[320px] bg-sand rounded-full flex items-center justify-center">
-              <div className="relative">
-                <div className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] bg-sand rounded-[30px] md:rounded-[40px] border-2 border-sand-dark flex items-center justify-center overflow-hidden relative">
-                  <div className="absolute w-full h-[1px] bg-sand-dark opacity-40 top-1/2"></div>
-                  <div className="absolute h-full w-[1px] bg-sand-dark opacity-40 left-1/2"></div>
-                  <div className="w-[150px] h-[80px] md:w-[180px] md:h-[100px] bg-[#D4C09A] rounded-[24px] md:rounded-[28px] border-[1.5px] border-[#B89B6E]"></div>
-                </div>
+              <div className="relative flex flex-col items-center">
+                {productData?.image ? (
+                  <img
+                    src={productData.image}
+                    alt={productData.name}
+                    className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] object-cover rounded-[30px] md:rounded-[40px] shadow-lg relative z-10"
+                  />
+                ) : (
+                  <div className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] bg-sand rounded-[30px] md:rounded-[40px] border-2 border-sand-dark flex items-center justify-center overflow-hidden relative z-10">
+                    <div className="absolute w-full h-[1px] bg-sand-dark opacity-40 top-1/2"></div>
+                    <div className="absolute h-full w-[1px] bg-sand-dark opacity-40 left-1/2"></div>
+                    <div className="w-[150px] h-[80px] md:w-[180px] md:h-[100px] bg-[#D4C09A] rounded-[24px] md:rounded-[28px] border-[1.5px] border-[#B89B6E]"></div>
+                  </div>
+                )}
+                {/* Shadow */}
                 <div className="w-[36px] md:w-[44px] h-[12px] md:h-[14px] bg-mid rounded-full absolute -bottom-5 left-1/2 -translate-x-1/2"></div>
               </div>
-              <motion.div 
-                className="absolute top-8 md:top-10 left-2 md:left-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-              >لاتكس طبيعي</motion.div>
-              <motion.div 
-                className="absolute bottom-8 md:bottom-10 right-2 md:right-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-              >32 × 22 سم</motion.div>
+
+              {productData?.name && (
+                <motion.div
+                  className="absolute top-8 md:top-10 left-2 md:left-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+                >
+                  {productData.name}
+                </motion.div>
+              )}
+
+              {productData?.subtitle && (
+                <motion.div
+                  className="absolute bottom-8 md:bottom-10 right-2 md:right-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+                >
+                  {productData.subtitle}
+                </motion.div>
+              )}
             </div>
           </motion.div>
         </div>
@@ -122,7 +159,7 @@ export default function Home() {
         <div className="font-playfair text-[28px] md:text-[30px] text-deep mb-10 leading-[1.3]">
           4 – 8 ساعات يومياً على مقاعد مش مريحة
         </div>
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"
           initial="hidden"
           whileInView="visible"
@@ -151,7 +188,7 @@ export default function Home() {
         <div className="font-playfair text-[28px] md:text-[30px] text-deep mb-10 leading-[1.3] text-center md:text-right">
           Sukoon — صُمِّم عشانك إنت
         </div>
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
           initial="hidden"
           whileInView="visible"
@@ -177,7 +214,7 @@ export default function Home() {
         </motion.div>
 
         {/* SPECS */}
-        <motion.div 
+        <motion.div
           className="bg-white rounded-2xl border border-sand p-8 mt-10"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
