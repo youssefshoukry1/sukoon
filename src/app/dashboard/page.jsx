@@ -52,6 +52,18 @@ export default function DashboardPage() {
     }
   };
 
+  const handleCancelOrder = async (id) => {
+    if (!confirm('هل أنت متأكد من إلغاء وحذف هذا الطلب؟')) return;
+    try {
+      await axios.delete(`https://sukoon-api-w5fb.onrender.com/api/orders/${id}`);
+      toast.success('تم إلغاء الطلب بنجاح');
+      fetchOrders();
+    } catch (err) {
+      toast.error('حدث خطأ أثناء إلغاء الطلب');
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchProducts();
@@ -234,19 +246,20 @@ export default function DashboardPage() {
                     <th className="p-4 text-[13px] font-semibold text-deep">الإجمالي</th>
                     <th className="p-4 text-[13px] font-semibold text-deep">الحالة</th>
                     <th className="p-4 text-[13px] font-semibold text-deep">التاريخ</th>
+                    <th className="p-4 text-[13px] font-semibold text-deep text-center">إجراءات</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loadingOrders ? (
                     <tr>
-                      <td colSpan="7" className="p-8 text-center text-muted">
+                      <td colSpan="8" className="p-8 text-center text-muted">
                         <Loader2 className="animate-spin mx-auto mb-2" />
                         جاري التحميل...
                       </td>
                     </tr>
                   ) : filteredOrders.length === 0 ? (
                     <tr>
-                      <td colSpan="7" className="p-8 text-center text-muted">لا توجد طلبات.</td>
+                      <td colSpan="8" className="p-8 text-center text-muted">لا توجد طلبات.</td>
                     </tr>
                   ) : (
                     filteredOrders.map((order) => (
@@ -266,6 +279,11 @@ export default function DashboardPage() {
                         </td>
                         <td className="p-4 text-[12px] text-muted">
                           {new Date(order.createdAt).toLocaleDateString('ar-EG')}
+                        </td>
+                        <td className="p-4 flex justify-center items-center h-full pt-6">
+                          <button onClick={() => handleCancelOrder(order._id)} className="text-red-600 hover:text-red-800 transition-colors bg-red-50 p-2 rounded" title="إلغاء الطلب">
+                            <Trash2 size={16} />
+                          </button>
                         </td>
                       </tr>
                     ))
