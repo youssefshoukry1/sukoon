@@ -40,6 +40,25 @@ export default function OrderPage() {
         ...formData,
         totalPrice
       });
+
+      // Send Email Notification via EmailJS
+      try {
+        await axios.post('https://api.emailjs.com/api/v1.0/email/send', {
+          service_id: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+          template_id: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+          user_id: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            customerName: formData.customerName,
+            phoneNumber: formData.phoneNumber,
+            location: formData.location,
+            quantity: formData.quantity,
+            totalPrice: totalPrice,
+          }
+        });
+      } catch (emailErr) {
+        console.error("Failed to send EmailJS notification:", emailErr);
+      }
+
       toast.success('تم تسجيل طلبك بنجاح! هنتواصل معاك قريب.');
       setFormData({
         customerName: '',
