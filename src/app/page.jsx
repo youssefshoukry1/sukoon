@@ -10,6 +10,7 @@ import 'swiper/css';
 
 export default function Home() {
   const [productData, setProductData] = useState(null);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -40,7 +41,7 @@ export default function Home() {
   };
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden" onClick={() => isImageZoomed && setIsImageZoomed(false)}>
       {/* NAV */}
       <nav className="bg-deep px-6 md:px-[5%] flex justify-between items-center h-16 sticky top-0 z-50 shadow-md">
         <Link href="/" className="font-playfair text-[22px] tracking-[5px] text-cream">
@@ -103,7 +104,11 @@ export default function Home() {
                   <img
                     src={productData.image}
                     alt={productData.name}
-                    className="w-[170px] h-[100px] sm:w-[200px] sm:h-[120px] md:w-[240px] md:h-[150px] object-cover rounded-[24px] sm:rounded-[30px] md:rounded-[40px] shadow-lg relative z-10 transition-all"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsImageZoomed(!isImageZoomed);
+                    }}
+                    className={`w-[170px] h-[100px] sm:w-[200px] sm:h-[120px] md:w-[240px] md:h-[150px] object-cover rounded-[24px] sm:rounded-[30px] md:rounded-[40px] shadow-lg relative transition-transform duration-500 cursor-pointer ${isImageZoomed ? 'scale-150 z-[100]' : 'z-10 hover:scale-110'}`}
                   />
                 ) : (
                   <div className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] bg-sand rounded-[30px] md:rounded-[40px] border-2 border-sand-dark flex items-center justify-center overflow-hidden relative z-10">
