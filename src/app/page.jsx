@@ -84,9 +84,9 @@ export default function Home() {
               لاتكس طبيعي + كتان فاخر + سهل الحمل
             </motion.p>
             <motion.div variants={fadeUp} className="flex justify-center md:justify-start items-baseline gap-3 mb-8">
-              <span className="text-[18px] text-[#bbb] line-through">350 ج</span>
+              <span className="text-[18px] text-[#bbb] line-through">397 ج</span>
               <span className="text-[24px] md:text-[36px] font-semibold text-deep">{productData?.price ? productData.price : 279} ج</span>
-              <span className="bg-terra-light text-terra text-[12px] font-semibold px-3 py-1 rounded-full">وفر {productData?.price ? 350 - productData.price : 71} ج</span>
+              <span className="bg-terra-light text-terra text-[12px] font-semibold px-3 py-1 rounded-full">وفر {productData?.price ? 397 - productData.price : 71} ج</span>
             </motion.div>
             <motion.div variants={fadeUp} className="flex justify-center md:justify-start gap-3 flex-wrap">
               <Link href="/order" className="bg-deep text-cream rounded-lg px-8 py-3 font-semibold transition-transform hover:-translate-y-1 shadow-sm">
@@ -299,7 +299,7 @@ export default function Home() {
               <div className="text-[12px] text-muted">المقاس المثالي</div>
             </div>
             <div className="py-4 md:py-0 md:px-5">
-              <div className="text-[22px] font-semibold text-deep mb-1">290 g</div>
+              <div className="text-[22px] font-semibold text-deep mb-1">اقل من 500 g</div>
               <div className="text-[12px] text-muted">خفيف جداً</div>
             </div>
             <div className="py-4 md:py-0 md:px-5">

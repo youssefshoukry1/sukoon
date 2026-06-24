@@ -136,7 +136,6 @@ export default function DashboardPage() {
   };
 
   const filteredOrders = orders.filter(o =>
-    o.customerName.toLowerCase().includes(search.toLowerCase()) ||
     o.phoneNumber.includes(search)
   );
 
@@ -171,7 +170,7 @@ export default function DashboardPage() {
               <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-muted" size={16} />
               <input
                 type="text"
-                placeholder={activeTab === 'orders' ? "ابحث في الطلبات..." : "ابحث في المنتجات..."}
+                placeholder={activeTab === 'orders' ? "ابحث برقم الموبايل..." : "ابحث في المنتجات..."}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full bg-white border border-sand rounded-lg pr-10 pl-4 py-2 text-[13px] outline-none focus:border-terra transition-colors"

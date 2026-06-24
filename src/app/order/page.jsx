@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Truck, CheckCircle2, ChevronRight, Loader2 } from 'lucide-react';
@@ -9,8 +9,18 @@ import toast from 'react-hot-toast';
 
 export default function OrderPage() {
   const [loading, setLoading] = useState(false);
-  const PRICE_PER_UNIT = 279;
+  const [product, setProduct] = useState(null);
   const SHIPPING_COST = 50;
+
+  // Fetch the active product from the API
+  useEffect(() => {
+    axios.get('https://sukoon-api-w5fb.onrender.com/api/product')
+      .then(res => {
+        const products = res.data.data || [];
+        if (products.length > 0) setProduct(products[0]);
+      })
+      .catch(err => console.error('Failed to fetch product:', err));
+  }, []);
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -28,7 +38,8 @@ export default function OrderPage() {
     }));
   };
 
-  const totalPrice = (formData.quantity * PRICE_PER_UNIT) + SHIPPING_COST;
+  const pricePerUnit = product ? product.price : 0;
+  const totalPrice = (formData.quantity * pricePerUnit) + SHIPPING_COST;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -181,12 +192,21 @@ export default function OrderPage() {
 
           <div className="flex justify-between items-center mb-5 md:mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-14 h-10 md:w-16 md:h-12 bg-sand rounded-lg border border-sand-dark flex items-center justify-center relative overflow-hidden">
-                <div className="w-12 h-8 bg-[#D4C09A] rounded-md border border-[#B89B6E]"></div>
+              {/* Real product image from API */}
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 border-mid flex-shrink-0 bg-dark/30">
+                {product?.image ? (
+                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Loader2 className="animate-spin text-light" size={20} />
+                  </div>
+                )}
               </div>
               <div>
-                <div className="text-[14px] font-semibold">كوشن Sukoon الطبي</div>
-                <div className="text-[11px] text-light">لون رملي (Sand)</div>
+                <div className="text-[14px] font-semibold">{ 'كوشن Sukoon'}</div>
+                <div className="text-[11px] text-light">{'لون اسود (Black)'}</div>
+                {/* Real price from API */}
+
               </div>
             </div>
             
@@ -208,7 +228,7 @@ export default function OrderPage() {
           <div className="space-y-2 md:space-y-3 text-[12px] md:text-[13px] mb-4 md:mb-6 border-b border-mid pb-4 md:pb-6">
             <div className="flex justify-between">
               <span className="text-light">السعر</span>
-              <span>{PRICE_PER_UNIT * formData.quantity} ج</span>
+              <span>{pricePerUnit * formData.quantity} ج</span>
             </div>
             <div className="flex justify-between">
               <span className="text-light">مصاريف الشحن</span>
