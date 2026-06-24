@@ -95,7 +95,7 @@ export default function OrderPage() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white rounded-2xl border border-sand p-6 md:p-8 shadow-sm"
+          className="bg-white rounded-2xl border border-sand p-6 md:p-8 shadow-sm order-2 lg:order-1"
         >
           <h1 className="font-playfair text-[28px] text-deep mb-2">إتمام الطلب</h1>
           <p className="text-[13px] text-muted mb-8">أدخل بياناتك وسيتم التواصل معك لتأكيد الشحن</p>
@@ -172,16 +172,16 @@ export default function OrderPage() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-deep rounded-2xl p-6 md:p-8 text-cream sticky top-24"
+          className="bg-deep rounded-2xl p-5 md:p-8 text-cream  top-24 order-1 lg:order-2 shadow-lg"
         >
-          <h2 className="text-[18px] font-semibold mb-6 flex items-center gap-2 border-b border-mid pb-4">
-            <CheckCircle2 size={20} className="text-terra" />
+          <h2 className="text-[16px] md:text-[18px] font-semibold mb-4 md:mb-6 flex items-center gap-2 border-b border-mid pb-3 md:pb-4">
+            <CheckCircle2 size={18} className="text-terra" />
             ملخص الطلب
           </h2>
 
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-5 md:mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-16 h-12 bg-sand rounded-lg border border-sand-dark flex items-center justify-center relative overflow-hidden">
+              <div className="w-14 h-10 md:w-16 md:h-12 bg-sand rounded-lg border border-sand-dark flex items-center justify-center relative overflow-hidden">
                 <div className="w-12 h-8 bg-[#D4C09A] rounded-md border border-[#B89B6E]"></div>
               </div>
               <div>
@@ -205,7 +205,7 @@ export default function OrderPage() {
             </div>
           </div>
 
-          <div className="space-y-3 text-[13px] mb-6 border-b border-mid pb-6">
+          <div className="space-y-2 md:space-y-3 text-[12px] md:text-[13px] mb-4 md:mb-6 border-b border-mid pb-4 md:pb-6">
             <div className="flex justify-between">
               <span className="text-light">السعر</span>
               <span>{PRICE_PER_UNIT * formData.quantity} ج</span>
@@ -216,9 +216,9 @@ export default function OrderPage() {
             </div>
           </div>
 
-          <div className="flex justify-between items-center">
-            <span className="text-[15px] font-semibold text-light">الإجمالي</span>
-            <span className="text-[24px] font-bold text-white">{totalPrice} ج</span>
+          <div className="flex justify-between items-center mt-2 md:mt-0">
+            <span className="text-[14px] md:text-[15px] font-semibold text-light">الإجمالي</span>
+            <span className="text-[20px] md:text-[24px] font-bold text-white">{totalPrice} ج</span>
           </div>
 
         </motion.div>
