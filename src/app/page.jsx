@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Truck, ThumbsUp, Medal, CheckCircle2 } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
 
 export default function Home() {
   const [productData, setProductData] = useState(null);
@@ -58,6 +61,7 @@ export default function Home() {
       <section className="bg-cream">
         <div className="py-10 md:py-16 px-6 md:px-[5%] grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-[1100px] mx-auto text-center md:text-right">
           <motion.div
+            className="order-2 md:order-1"
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
@@ -65,17 +69,17 @@ export default function Home() {
             <motion.div variants={fadeUp} className="text-[11px] tracking-[3px] uppercase text-terra font-bold mb-3">
               كوشن طبي محمول
             </motion.div>
-            <motion.h1 variants={fadeUp} className="font-playfair text-[32px] md:text-[42px] text-deep leading-[1.2] mb-4">
+            <motion.h1 variants={fadeUp} className="font-playfair text-[24px] md:text-[42px] text-deep leading-[1.3] md:leading-[1.2] mb-4">
               اقعد <span className="text-terra">براحة</span>،<br />وذاكر بثقة
             </motion.h1>
-            <motion.p variants={fadeUp} className="text-[16px] md:text-[17px] text-muted mb-6 leading-[1.7]">
+            <motion.p variants={fadeUp} className="text-[14px] md:text-[17px] text-muted mb-6 leading-[1.7]">
               مصنوع خصيصاً لطلاب الثانوية العامة —<br />
               لاتكس طبيعي + كتان فاخر + سهل الحمل
             </motion.p>
             <motion.div variants={fadeUp} className="flex justify-center md:justify-start items-baseline gap-3 mb-8">
               <span className="text-[18px] text-[#bbb] line-through">350 ج</span>
-              <span className="text-[32px] md:text-[36px] font-semibold text-deep">279 ج</span>
-              <span className="bg-terra-light text-terra text-[12px] font-semibold px-3 py-1 rounded-full">وفر 71 ج</span>
+              <span className="text-[24px] md:text-[36px] font-semibold text-deep">{productData?.price ? productData.price : 279} ج</span>
+              <span className="bg-terra-light text-terra text-[12px] font-semibold px-3 py-1 rounded-full">وفر {productData?.price ? 350 - productData.price : 71} ج</span>
             </motion.div>
             <motion.div variants={fadeUp} className="flex justify-center md:justify-start gap-3 flex-wrap">
               <Link href="/order" className="bg-deep text-cream rounded-lg px-8 py-3 font-semibold transition-transform hover:-translate-y-1 shadow-sm">
@@ -88,18 +92,18 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="flex justify-center items-center relative mt-10 md:mt-0"
+            className="flex flex-col justify-center items-center relative order-1 md:order-2"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="relative w-[260px] h-[260px] md:w-[320px] md:h-[320px] bg-sand rounded-full flex items-center justify-center">
+            <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] bg-sand rounded-full flex items-center justify-center mb-6 md:mb-8 transition-all">
               <div className="relative flex flex-col items-center">
                 {productData?.image ? (
                   <img
                     src={productData.image}
                     alt={productData.name}
-                    className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] object-cover rounded-[30px] md:rounded-[40px] shadow-lg relative z-10"
+                    className="w-[170px] h-[100px] sm:w-[200px] sm:h-[120px] md:w-[240px] md:h-[150px] object-cover rounded-[24px] sm:rounded-[30px] md:rounded-[40px] shadow-lg relative z-10 transition-all"
                   />
                 ) : (
                   <div className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] bg-sand rounded-[30px] md:rounded-[40px] border-2 border-sand-dark flex items-center justify-center overflow-hidden relative z-10">
@@ -109,12 +113,12 @@ export default function Home() {
                   </div>
                 )}
                 {/* Shadow */}
-                <div className="w-[36px] md:w-[44px] h-[12px] md:h-[14px] bg-mid rounded-full absolute -bottom-5 left-1/2 -translate-x-1/2"></div>
+                <div className="w-[32px] sm:w-[36px] md:w-[44px] h-[10px] sm:h-[12px] md:h-[14px] bg-mid rounded-full absolute -bottom-4 md:-bottom-5 left-1/2 -translate-x-1/2"></div>
               </div>
 
               {productData?.name && (
                 <motion.div
-                  className="absolute top-8 md:top-10 left-2 md:left-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
+                  className="absolute top-4 sm:top-8 md:top-10 left-0 sm:left-2 md:left-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
                   animate={{ y: [0, -8, 0] }}
                   transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
                 >
@@ -124,7 +128,7 @@ export default function Home() {
 
               {productData?.subtitle && (
                 <motion.div
-                  className="absolute bottom-8 md:bottom-10 right-2 md:right-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
+                  className="absolute bottom-4 sm:bottom-8 md:bottom-10 right-0 sm:right-2 md:right-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
                   animate={{ y: [0, 8, 0] }}
                   transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
                 >
@@ -132,6 +136,31 @@ export default function Home() {
                 </motion.div>
               )}
             </div>
+
+            {/* Sub Images Swiper */}
+            {productData?.subImages && productData.subImages.filter(img => img).length > 0 && (
+              <div className="w-full max-w-[280px] sm:max-w-[300px] md:max-w-[340px] mt-2 md:mt-4 z-20 px-2">
+                <Swiper
+                  modules={[Autoplay]}
+                  spaceBetween={12}
+                  slidesPerView={2}
+                  autoplay={{ delay: 2500, disableOnInteraction: false }}
+                  className="w-full"
+                >
+                  {productData.subImages.filter(img => img).map((img, idx) => (
+                    <SwiperSlide key={idx}>
+                      <div className="group overflow-hidden rounded-2xl shadow-md border-2 border-cream/80 relative">
+                        <img 
+                          src={img} 
+                          alt={`sub-image-${idx}`} 
+                          className="w-full h-[100px] sm:h-[120px] md:h-[140px] object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            )}
           </motion.div>
         </div>
       </section>

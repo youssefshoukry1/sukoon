@@ -23,7 +23,7 @@ export default function DashboardPage() {
   const [addingProduct, setAddingProduct] = useState(false);
   const [editingProductId, setEditingProductId] = useState(null);
   const [productForm, setProductForm] = useState({
-    name: '', subtitle: '', price: '', image: '', stock: 0
+    name: '', subtitle: '', price: '', image: '', stock: 0, subImages: ['', '', '', '', '']
   });
 
   const fetchOrders = async () => {
@@ -82,15 +82,17 @@ export default function DashboardPage() {
     setAddingProduct(true);
     try {
       if (editingProductId) {
-        await axios.put(`https://sukoon-api-w5fb.onrender.com/api/product/${editingProductId}`, productForm);
+        const payload = { ...productForm, subImages: productForm.subImages.filter(img => img.trim() !== '') };
+        await axios.put(`https://sukoon-api-w5fb.onrender.com/api/product/${editingProductId}`, payload);
         toast.success('تم تحديث المنتج بنجاح!');
       } else {
-        await axios.post('https://sukoon-api-w5fb.onrender.com/api/product', productForm);
+        const payload = { ...productForm, subImages: productForm.subImages.filter(img => img.trim() !== '') };
+        await axios.post('https://sukoon-api-w5fb.onrender.com/api/product', payload);
         toast.success('تم إضافة المنتج بنجاح!');
       }
       setShowProductModal(false);
       setEditingProductId(null);
-      setProductForm({ name: '', subtitle: '', price: '', image: '', stock: 0 });
+      setProductForm({ name: '', subtitle: '', price: '', image: '', stock: 0, subImages: ['', '', '', '', ''] });
       fetchProducts();
     } catch (err) {
       toast.error('حصل مشكلة أثناء حفظ المنتج.');
@@ -106,7 +108,10 @@ export default function DashboardPage() {
       subtitle: product.subtitle || '',
       price: product.price || '',
       image: product.image || '',
-      stock: product.stock || 0
+      stock: product.stock || 0,
+      subImages: (product.subImages && product.subImages.length > 0)
+        ? [...product.subImages, '', '', '', '', ''].slice(0, 5)
+        : ['', '', '', '', '']
     });
     setEditingProductId(product._id);
     setShowProductModal(true);
@@ -126,7 +131,7 @@ export default function DashboardPage() {
 
   const openAddModal = () => {
     setEditingProductId(null);
-    setProductForm({ name: '', subtitle: '', price: '', image: '', stock: 0 });
+    setProductForm({ name: '', subtitle: '', price: '', image: '', stock: 0, subImages: ['', '', '', '', ''] });
     setShowProductModal(true);
   };
 
@@ -426,6 +431,27 @@ export default function DashboardPage() {
                       placeholder="https://res.cloudinary.com/..."
                       dir="ltr"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-[13px] text-muted mb-2 font-semibold">الصور الفرعية (Sub Images)</label>
+                    <div className="space-y-2">
+                      {[0, 1, 2, 3, 4].map((index) => (
+                        <input
+                          key={index}
+                          type="url"
+                          value={productForm.subImages[index] || ''}
+                          onChange={(e) => {
+                            const newSubImages = [...productForm.subImages];
+                            newSubImages[index] = e.target.value;
+                            setProductForm(prev => ({ ...prev, subImages: newSubImages }));
+                          }}
+                          className="w-full bg-[#F7F1E4]/30 border border-sand rounded-lg px-3 py-2 text-[14px] outline-none focus:border-terra transition-colors"
+                          placeholder={`صورة فرعية ${index + 1}`}
+                          dir="ltr"
+                        />
+                      ))}
+                    </div>
                   </div>
 
                   <button
