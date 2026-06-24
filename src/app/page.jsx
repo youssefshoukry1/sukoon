@@ -11,6 +11,7 @@ import 'swiper/css';
 export default function Home() {
   const [productData, setProductData] = useState(null);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
+  const [zoomedSubImage, setZoomedSubImage] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -41,7 +42,12 @@ export default function Home() {
   };
 
   return (
-    <div className="overflow-x-hidden" onClick={() => isImageZoomed && setIsImageZoomed(false)}>
+    <div
+      className="overflow-x-hidden"
+      onClick={() => {
+        if (isImageZoomed) setIsImageZoomed(false);
+      }}
+    >
       {/* NAV */}
       <nav className="bg-deep px-6 md:px-[5%] flex justify-between items-center h-16 sticky top-0 z-50 shadow-md">
         <Link href="/" className="font-playfair text-[22px] tracking-[5px] text-cream">
@@ -154,10 +160,13 @@ export default function Home() {
                 >
                   {productData.subImages.filter(img => img).map((img, idx) => (
                     <SwiperSlide key={idx}>
-                      <div className="group overflow-hidden rounded-2xl shadow-md border-2 border-cream/80 relative">
-                        <img 
-                          src={img} 
-                          alt={`sub-image-${idx}`} 
+                      <div
+                        className="group overflow-hidden rounded-2xl shadow-md border-2 border-cream/80 relative cursor-pointer"
+                        onClick={(e) => { e.stopPropagation(); setZoomedSubImage(img); }}
+                      >
+                        <img
+                          src={img}
+                          alt={`sub-image-${idx}`}
                           className="w-full h-[100px] sm:h-[120px] md:h-[140px] object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
@@ -169,6 +178,35 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* LIGHTBOX for Sub Images */}
+      {zoomedSubImage && (
+        <div
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-dark/80 backdrop-blur-sm"
+          onClick={() => setZoomedSubImage(null)}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-[90vw] max-h-[85vh]"
+          >
+            <img
+              src={zoomedSubImage}
+              alt="zoomed"
+              className="max-w-full max-h-[80vh] rounded-2xl shadow-2xl border-4 border-cream/20 object-contain"
+            />
+            <button
+              onClick={() => setZoomedSubImage(null)}
+              className="absolute -top-3 -right-3 w-8 h-8 bg-terra text-white rounded-full flex items-center justify-center text-lg font-bold shadow-lg hover:bg-deep transition-colors"
+            >
+              ×
+            </button>
+          </motion.div>
+        </div>
+      )}
 
       {/* TRUST STRIP */}
       <div className="bg-deep py-4 px-4 md:px-[5%] flex justify-center gap-4 md:gap-10 flex-wrap">
