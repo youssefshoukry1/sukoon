@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Truck, CheckCircle2, ChevronRight, Loader2 } from 'lucide-react';
@@ -9,18 +9,7 @@ import toast from 'react-hot-toast';
 
 export default function OrderPage() {
   const [loading, setLoading] = useState(false);
-  const [product, setProduct] = useState(null);
   const SHIPPING_COST = 50;
-
-  // Fetch the active product from the API
-  useEffect(() => {
-    axios.get('https://sukoon-api-w5fb.onrender.com/api/product')
-      .then(res => {
-        const products = res.data.data || [];
-        if (products.length > 0) setProduct(products[0]);
-      })
-      .catch(err => console.error('Failed to fetch product:', err));
-  }, []);
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -39,7 +28,7 @@ export default function OrderPage() {
   };
   const Main_Image_Link = "https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316928/Artboard_6_htbvtx.png"
 
-  const pricePerUnit = product ? product.price : 0;
+  const pricePerUnit = 297;
   const totalPrice = (formData.quantity * pricePerUnit) + SHIPPING_COST;
 
   const handleSubmit = async (e) => {
@@ -196,7 +185,7 @@ export default function OrderPage() {
               {/* Real product image from API */}
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 border-mid flex-shrink-0 bg-dark/30">
                
-                  <img src={Main_Image_Link} alt={product.name} className="w-full h-full object-cover" />
+                  <img src={Main_Image_Link} alt="كوشن Sukoon" className="w-full h-full object-cover" />
                 
               </div>
               <div>
