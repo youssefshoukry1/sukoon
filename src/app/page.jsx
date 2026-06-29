@@ -7,7 +7,7 @@ import { ShieldCheck, Truck, ThumbsUp, Medal, CheckCircle2 } from 'lucide-react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-
+import Image from "next/image";
 export default function Home() {
   const [productData, setProductData] = useState(null);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
@@ -41,6 +41,9 @@ export default function Home() {
     }
   };
 
+  const Main_Image_Link = "https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316928/Artboard_6_htbvtx.png"
+
+  const Sub_Images_Links = ['https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316916/Artboard_3_ip10hj.png',"https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/Artboard_1_jq0wjt.png","https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316907/Artboard_2_vtw2sp.png","https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316907/Artboard_4_li9ewb.png"]
   return (
     <div
       className="overflow-x-hidden"
@@ -85,8 +88,8 @@ export default function Home() {
             </motion.p>
             <motion.div variants={fadeUp} className="flex justify-center md:justify-start items-baseline gap-3 mb-8">
               <span className="text-[18px] text-[#bbb] line-through">397 ج</span>
-              <span className="text-[24px] md:text-[36px] font-semibold text-deep">{productData?.price ? productData.price : 279} ج</span>
-              <span className="bg-terra-light text-terra text-[12px] font-semibold px-3 py-1 rounded-full">وفر {productData?.price ? 397 - productData.price : 71} ج</span>
+              <span className="text-[24px] md:text-[36px] font-semibold text-deep">{productData?.price ? productData.price : 297} ج</span>
+              <span className="bg-terra-light text-terra text-[12px] font-semibold px-3 py-1 rounded-full">وفر {productData?.price ? 397 - productData.price : 100} ج</span>
             </motion.div>
             <motion.div variants={fadeUp} className="flex justify-center md:justify-start gap-3 flex-wrap">
               <Link href="/order" className="bg-deep text-cream rounded-lg px-8 py-3 font-semibold transition-transform hover:-translate-y-1 shadow-sm">
@@ -107,14 +110,19 @@ export default function Home() {
             <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] bg-sand rounded-full flex items-center justify-center mb-6 md:mb-8 transition-all">
               <div className="relative flex flex-col items-center">
                 {productData?.image ? (
-                  <img
-                    src={productData.image}
+                  <Image
+                    src={Main_Image_Link}
                     alt={productData.name}
+                    width={240}
+                    height={150}
+                    quality={100}
+                    priority
                     onClick={(e) => {
                       e.stopPropagation();
                       setIsImageZoomed(!isImageZoomed);
                     }}
-                    className={`w-[170px] h-[100px] sm:w-[200px] sm:h-[120px] md:w-[240px] md:h-[150px] object-cover rounded-[24px] sm:rounded-[30px] md:rounded-[40px] shadow-lg relative transition-transform duration-500 cursor-pointer ${isImageZoomed ? 'scale-150 z-[100]' : 'z-10 hover:scale-110'}`}
+                    className={`w-[170px] h-[100px] sm:w-[200px] sm:h-[120px] md:w-[240px] md:h-[150px] rounded-[24px] sm:rounded-[30px] md:rounded-[40px] shadow-lg relative transition-transform duration-500 cursor-pointer object-cover ${isImageZoomed ? "scale-150 z-[100]" : "z-10 hover:scale-110"
+                      }`}
                   />
                 ) : (
                   <div className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] bg-sand rounded-[30px] md:rounded-[40px] border-2 border-sand-dark flex items-center justify-center overflow-hidden relative z-10">
@@ -164,9 +172,12 @@ export default function Home() {
                         className="group overflow-hidden rounded-2xl shadow-md border-2 border-cream/80 relative cursor-pointer"
                         onClick={(e) => { e.stopPropagation(); setZoomedSubImage(img); }}
                       >
-                        <img
-                          src={img}
+                        <Image
+                          src={Sub_Images_Links[idx]}
                           alt={`sub-image-${idx}`}
+                          width={280}
+                          height={140}
+                          quality={100}
                           className="w-full h-[100px] sm:h-[120px] md:h-[140px] object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       </div>
