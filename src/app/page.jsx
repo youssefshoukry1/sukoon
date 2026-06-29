@@ -135,15 +135,15 @@ export default function Home() {
                 <div className="w-[32px] sm:w-[36px] md:w-[44px] h-[10px] sm:h-[12px] md:h-[14px] bg-mid rounded-full absolute -bottom-4 md:-bottom-5 left-1/2 -translate-x-1/2"></div>
               </div>
 
-              {productData?.name && (
+              
                 <motion.div
                   className="absolute top-4 sm:top-8 md:top-10 left-0 sm:left-2 md:left-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
                   animate={{ y: [0, -8, 0] }}
                   transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
                 >
-                  {productData.name}
+                  {"Sukoon"}
                 </motion.div>
-              )}
+              
 
               {productData?.subtitle && (
                 <motion.div
@@ -151,7 +151,7 @@ export default function Home() {
                   animate={{ y: [0, 8, 0] }}
                   transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
                 >
-                  {productData.subtitle}
+                  { "معمولة عشانك"}
                 </motion.div>
               )}
             </div>
