@@ -37,6 +37,7 @@ export default function OrderPage() {
       [name]: name === 'quantity' ? parseInt(value) || 1 : value
     }));
   };
+  const Main_Image_Link = "https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316928/Artboard_6_htbvtx.png"
 
   const pricePerUnit = product ? product.price : 0;
   const totalPrice = (formData.quantity * pricePerUnit) + SHIPPING_COST;
@@ -194,13 +195,9 @@ export default function OrderPage() {
             <div className="flex items-center gap-3">
               {/* Real product image from API */}
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 border-mid flex-shrink-0 bg-dark/30">
-                {product?.image ? (
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Loader2 className="animate-spin text-light" size={20} />
-                  </div>
-                )}
+               
+                  <img src={Main_Image_Link} alt={product.name} className="w-full h-full object-cover" />
+                
               </div>
               <div>
                 <div className="text-[14px] font-semibold">{ 'كوشن Sukoon'}</div>
