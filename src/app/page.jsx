@@ -43,8 +43,13 @@ export default function Home() {
 
   const Main_Image_Link = "https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316928/Artboard_6_htbvtx.png"
 
-  const Sub_Images_Links = ['https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316916/Artboard_3_ip10hj.png',"https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/Artboard_1_jq0wjt.png","https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316907/Artboard_2_vtw2sp.png","https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316907/Artboard_4_li9ewb.png"]
-  return (
+  const Sub_Images_Links = [
+    'https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316916/Artboard_3_ip10hj.png',
+    "https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/Artboard_1_jq0wjt.png",
+    "https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316907/Artboard_2_vtw2sp.png",
+    "https://res.cloudinary.com/dgksfb9g4/image/upload/f_auto,q_auto/v1782316907/Artboard_4_li9ewb.png"
+  ]
+  return (  
     <div
       className="overflow-x-hidden"
       onClick={() => {
@@ -109,10 +114,10 @@ export default function Home() {
           >
             <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] bg-sand rounded-full flex items-center justify-center mb-6 md:mb-8 transition-all">
               <div className="relative flex flex-col items-center">
-                {productData?.image ? (
+                
                   <Image
                     src={Main_Image_Link}
-                    alt={productData.name}
+                    alt={"Sukoon_image"}
                     width={240}
                     height={150}
                     quality={100}
@@ -124,13 +129,6 @@ export default function Home() {
                     className={`w-[170px] h-[100px] sm:w-[200px] sm:h-[120px] md:w-[240px] md:h-[150px] rounded-[24px] sm:rounded-[30px] md:rounded-[40px] shadow-lg relative transition-transform duration-500 cursor-pointer object-cover ${isImageZoomed ? "scale-150 z-[100]" : "z-10 hover:scale-110"
                       }`}
                   />
-                ) : (
-                  <div className="w-[200px] h-[120px] md:w-[240px] md:h-[150px] bg-sand rounded-[30px] md:rounded-[40px] border-2 border-sand-dark flex items-center justify-center overflow-hidden relative z-10">
-                    <div className="absolute w-full h-[1px] bg-sand-dark opacity-40 top-1/2"></div>
-                    <div className="absolute h-full w-[1px] bg-sand-dark opacity-40 left-1/2"></div>
-                    <div className="w-[150px] h-[80px] md:w-[180px] md:h-[100px] bg-[#D4C09A] rounded-[24px] md:rounded-[28px] border-[1.5px] border-[#B89B6E]"></div>
-                  </div>
-                )}
                 {/* Shadow */}
                 <div className="w-[32px] sm:w-[36px] md:w-[44px] h-[10px] sm:h-[12px] md:h-[14px] bg-mid rounded-full absolute -bottom-4 md:-bottom-5 left-1/2 -translate-x-1/2"></div>
               </div>
@@ -145,7 +143,7 @@ export default function Home() {
                 </motion.div>
               
 
-              {productData?.subtitle && (
+              
                 <motion.div
                   className="absolute bottom-4 sm:bottom-8 md:bottom-10 right-0 sm:right-2 md:right-5 bg-deep text-cream text-[10px] md:text-[11px] font-semibold px-3 py-1.5 rounded-full whitespace-nowrap shadow-md z-20"
                   animate={{ y: [0, 8, 0] }}
@@ -153,11 +151,10 @@ export default function Home() {
                 >
                   { "معمول علشانك"}
                 </motion.div>
-              )}
             </div>
 
             {/* Sub Images Swiper */}
-            {productData?.subImages && productData.subImages.filter(img => img).length > 0 && (
+            
               <div className="w-full max-w-[280px] sm:max-w-[300px] md:max-w-[340px] mt-2 md:mt-4 z-20 px-2">
                 <Swiper
                   modules={[Autoplay]}
@@ -165,16 +162,16 @@ export default function Home() {
                   slidesPerView={2}
                   autoplay={{ delay: 2500, disableOnInteraction: false }}
                   className="w-full"
-                >
-                  {productData.subImages.filter(img => img).map((img, idx) => (
-                    <SwiperSlide key={idx}>
+                >{ 
+                  Sub_Images_Links.map((img_v, index) => (
+                    <SwiperSlide key={index}>
                       <div
                         className="group overflow-hidden rounded-2xl shadow-md border-2 border-cream/80 relative cursor-pointer"
-                        onClick={(e) => { e.stopPropagation(); setZoomedSubImage(img); }}
+                        onClick={(e) => { e.stopPropagation(); setZoomedSubImage(img_v); }}
                       >
                         <Image
-                          src={Sub_Images_Links[idx]}
-                          alt={`sub-image-${idx}`}
+                          src={img_v}
+                          alt={`sub-image`}
                           width={280}
                           height={140}
                           quality={100}
@@ -182,10 +179,11 @@ export default function Home() {
                         />
                       </div>
                     </SwiperSlide>
-                  ))}
+                  ))
+                }
+
                 </Swiper>
               </div>
-            )}
           </motion.div>
         </div>
       </section>
@@ -321,11 +319,52 @@ export default function Home() {
         </motion.div>
       </div>
 
-      <footer className="bg-dark py-8 px-6 text-center">
-        <div className="font-playfair text-[20px] tracking-[4px] text-cream mb-2">Sukoon</div>
-        <div className="text-[12px] text-muted mb-4">راحة لتركيز يدوم</div>
-        <div className="text-[11px] text-[#3D5A4A]">© 2026 Sukoon. All rights reserved.</div>
-      </footer>
+<footer className="bg-dark py-8 px-6 text-center relative overflow-hidden">
+  {/* Glow Effect */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-gradient-to-r from-transparent via-cream/30 to-transparent opacity-50" />
+
+  <div className="max-w-7xl mx-auto flex flex-col items-center gap-4">
+    {/* Branding */}
+    <div>
+      <div className="font-playfair text-[20px] tracking-[4px] text-cream mb-1">Sukoon</div>
+      <div className="text-[12px] text-muted mb-2">راحة لتركيز يدوم</div>
+    </div>
+
+    {/* Youssef Shoukry First */}
+    <p className="font-light text-xs text-muted tracking-wide flex items-center justify-center flex-wrap gap-1">
+      <a
+        href="https://youssef-portfolio-1.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group inline-flex items-center gap-1.5 mr-1 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(245,245,220,0.1)]"
+      >
+        <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cream to-amber-200 group-hover:from-white group-hover:to-white transition-all">
+          Youssef Shoukry
+        </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-3 h-3 text-white/50 group-hover:text-white transition-colors"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+          />
+        </svg>
+      </a>{" "}
+      Designed & Developed by
+    </p>
+
+    {/* Copyright */}
+    <div className="text-[11px] text-[#3D5A4A]">
+      © {new Date().getFullYear()} Sukoon. All rights reserved.
+    </div>
+  </div>
+</footer>
     </div>
   );
 }
